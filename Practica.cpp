@@ -1,10 +1,60 @@
-﻿#define _CRT_SECURE_NO_WARNINGS // для корректной работы scanf()
+#define _CRT_SECURE_NO_WARNINGS 
 #include <stdio.h>
 #include <ctime>
 #include <iostream>
 #include <locale.h>
 
 #define SIZE 100
+
+void data()
+{
+    char buffer[256];
+    char time_str[100][256]; 
+    char size_str[100][256];
+    char elem_str[100][256];
+    FILE* fp = fopen("time.txt", "r");
+    if (fp != NULL) {
+        printf("+-------------------------------------------+\n"
+               "|                  Количество               |\n"
+               "|       Секунд         |       Чисел        |\n"
+               "+-------------------------------------------+\n");
+        int line_num = 0;
+        while (fgets(buffer, 256, fp) != NULL) {
+            char* token = strtok(buffer, ",");
+            strcpy(time_str[line_num], token);
+            token = strtok(NULL, ",");
+            strcpy(size_str[line_num], token);
+            token = strtok(NULL, "\n");
+            strcpy(elem_str[line_num], token);
+            printf("|       %s,%-13s|       %-13s|\n", time_str[line_num], size_str[line_num], elem_str[line_num]);
+            line_num++;
+            
+        }
+        printf("+-------------------------------------------+\n");
+        fclose(fp);
+    }
+    system("pause");
+    std::cin.get();
+}
+
+void developers()
+{
+    printf("+---------------------------------------------------------------------------+\n"
+        "|   Группа: 23ВВВ1                                                          |\n"
+        "|                                                                           |\n"
+        "|   Разработка алгоритма                                                    |\n"
+        "|   Казаков Александр                                                       |\n"
+        "|                                                                           |\n"
+        "|   Разработка интерфейса                                                   |\n"
+        "|   Власова Адриана                                                         |\n"
+        "|                                                                           |\n"
+        "|   Тестировка и Работа с файлами                                           |\n"
+        "|   Головушкина Алекандра                                                   |\n"
+        "|                                                                           |\n"
+        "+---------------------------------------------------------------------------+\n");
+    system("pause");
+    std::cin.get();
+}
 
 void writeFile(int size)
 {
@@ -59,44 +109,44 @@ int readFile(const char* filename, double* numbers, int* count, int size) {
 
 void shakerSort(double* mass, int count)
 {
-    int left = 0, right = count - 1; // левая и правая границы сортируемой области массива
-    int flag = 1;  // флаг наличия перемещений
+    int left = 0, right = count - 1; 
+    int flag = 1;  
     clock_t start_time = clock();
 
     while ((left < right) && flag > 0)
     {
         flag = 0;
-        for (int i = left; i < right; i++)  //двигаемся слева направо
+        for (int i = left; i < right; i++)  
         {
-            if (mass[i] > mass[i + 1]) // если следующий элемент меньше текущего,
-            {             // меняем их местами
+            if (mass[i] > mass[i + 1]) 
+            {             
                 double t = mass[i];
                 mass[i] = mass[i + 1];
                 mass[i + 1] = t;
-                flag = 1;      // перемещения в этом цикле были
+                flag = 1;    
             }
         }
-        right--; // сдвигаем правую границу на предыдущий элемент
-        for (int i = right; i > left; i--)  //двигаемся справа налево
+        right--; 
+        for (int i = right; i > left; i--) 
         {
-            if (mass[i - 1] > mass[i]) // если предыдущий элемент больше текущего,
-            {            // меняем их местами
+            if (mass[i - 1] > mass[i]) 
+            {            
                 double t = mass[i];
                 mass[i] = mass[i - 1];
                 mass[i - 1] = t;
-                flag = 1;    // перемещения в этом цикле были
+                flag = 1; 
             }
         }
-        left++; // сдвигаем левую границу на следующий элемент
+        left++; 
         if (flag == 0) break;
     }
-    clock_t end_time = clock(); // stop timer
+    clock_t end_time = clock(); 
     double elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
-    // Write sorting time to file
 
-    FILE* fp = fopen("time.txt", "w");
+
+    FILE* fp = fopen("time.txt", "a");
     if (fp != NULL) {
-        fprintf(fp, "%.3f seconds", elapsed_time);
+        fprintf(fp, "%.3f, %d\n", elapsed_time, count, count);
         fclose(fp);
     }
     else {
@@ -111,28 +161,25 @@ int main()
     int size = 0;
     double* m = nullptr;
     int count;
-    char buffer[256];
+    int none = 0;
     
 
     while (1) {
-        FILE* fp = fopen("time.txt", "r");
-        if (fp != NULL) { 
-            fgets(buffer, 256, fp);
-            fclose(fp);
-        }
+        
         printf("Выбор действия:\n");
         printf("1. Ввести размер массива\n");
         printf("2. Создать рандомную последовательность и записать в файл\n");
         printf("3. Прочитать данные из файла\n");
         printf("4. Отсортировать список используя метод Шейкерной сортировки\n");
         printf("5. Загрузить отсортированные данные в файл\n");
-        printf("6. Выход                                                                   Последняя сортировка заняла: %s\n", buffer);
+        printf("6. База сортировок\n");
+        printf("7. Информация о разработчиках\n");
+        printf("8. Выход\n");
         scanf("%d", &choice);
         system("cls");
 
         switch (choice) {
         case 1:
-            
             printf("Введите размер массива\n");
             std::cin >> size;
             m = new double[size];
@@ -154,6 +201,13 @@ int main()
             printf("Данные записанны в файл.\n");
             break;
         case 6:
+            data();
+
+            break;
+        case 7:
+            developers();
+            break;
+        case 8:
             delete[] m;
             return 0;
         default:
