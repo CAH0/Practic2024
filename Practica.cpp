@@ -1,7 +1,8 @@
-#define _CRT_SECURE_NO_WARNINGS 
+﻿#define _CRT_SECURE_NO_WARNINGS 
 #include <stdio.h>
-#include <ctime>
 #include <iostream>
+#include <ctime>
+
 #include <locale.h>
 
 #define SIZE 100
@@ -9,9 +10,9 @@
 void data()
 {
     char buffer[256];
-    char time_str[100][256]; 
-    char size_str[100][256];
     char elem_str[100][256];
+    char info_str[100][256];
+
     FILE* fp = fopen("time.txt", "r");
     if (fp != NULL) {
         printf("+-------------------------------------------+\n"
@@ -21,12 +22,16 @@ void data()
         int line_num = 0;
         while (fgets(buffer, 256, fp) != NULL) {
             char* token = strtok(buffer, ",");
-            strcpy(time_str[line_num], token);
+            strcpy(info_str[line_num], token);
             token = strtok(NULL, ",");
-            strcpy(size_str[line_num], token);
+            strcat(info_str[line_num], ", ");
+            strcat(info_str[line_num], token);
             token = strtok(NULL, "\n");
             strcpy(elem_str[line_num], token);
-            printf("|       %s,%-13s|       %-13s|\n", time_str[line_num], size_str[line_num], elem_str[line_num]);
+
+            
+
+            printf("|       %-14s |       %-13s|\n", info_str[line_num], elem_str[line_num]);
             line_num++;
             
         }
@@ -111,6 +116,7 @@ void shakerSort(double* mass, int count)
 {
     int left = 0, right = count - 1; 
     int flag = 1;  
+    
     clock_t start_time = clock();
 
     while ((left < right) && flag > 0)
@@ -202,7 +208,6 @@ int main()
             break;
         case 6:
             data();
-
             break;
         case 7:
             developers();
