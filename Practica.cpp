@@ -189,28 +189,31 @@ int main()
             printf("Введите размер массива\n");
             std::cin >> size;
             m = new double[size];
+            system("cls");
             break;
         case 2:
             writeFile(size);
-            printf("Данные записанный в файл.\n");
+            printf("Данные записанный в файл.\n\n");
             break;
         case 3:
             readFile("input.txt", m, &count, size);
-            printf("Данные прочитанный с файла.\n");
+            printf("Данные прочитанный с файла.\n\n");
             break;
         case 4:
             shakerSort(m, size);
-            printf("Данные отсортированный.\n");
+            printf("Данные отсортированный.\n\n");
             break;
         case 5:
             writeFileData(m,  size);
-            printf("Данные записанны в файл.\n");
+            printf("Данные записанны в файл.\n\n");
             break;
         case 6:
             data();
+            system("cls");
             break;
         case 7:
             developers();
+            system("cls");
             break;
         case 8:
             delete[] m;
@@ -218,7 +221,7 @@ int main()
         default:
             printf("Ошибка.\n Попробуте снова.\n");
         }
-        system("cls");
+        //system("cls");
         
     }
     return 0;
